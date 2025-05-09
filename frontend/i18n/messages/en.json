@@ -1,10 +1,43 @@
 {
-    "Authorization": {
-        "sign-in": {
-            "header": "Sign In"
-        },
-        "register": {
-            "header": "Register"
+    "Forms": {
+        "auth": {
+            "login": {
+                "header": "Sign In",
+                "register-link": "Don't have an account?",
+                "submit": "Submit",
+                "login": {
+                    "label": "Login",
+                    "placeholder": "Enter your username or email"
+                },
+                "password": {
+                    "label": "Password",
+                    "placeholder": "Enter your password"
+                }
+            },
+            "register": {
+                "header": "Sign Up",
+                "login-link": "Already have an account?",
+                "submit": "Submit",
+                "username": {
+                    "label": "Username",
+                    "placeholder": "Enter your username"
+                },
+                "email": {
+                    "label": "Email",
+                    "placeholder": "Enter your email"
+                },
+                "password": {
+                    "label": "Password",
+                    "placeholder": "Enter your password"
+                },
+                "confirm_password": {
+                    "label": "Confirm Password",
+                    "placeholder": "Confirm your password"
+                }
+            }
         }
+    },
+    "Sidebar": {
+        "login": "Login"
     }
 }

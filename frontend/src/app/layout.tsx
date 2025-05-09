@@ -34,7 +34,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
-            {children}
+              {children}
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
