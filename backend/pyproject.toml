@@ -5,6 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi[standart]>=0.115.12",
-    "uvicorn>=0.34.2",
+    "django>=5.2.1",
+    "djangorestframework>=3.16.0",
+    "python-dotenv>=1.1.0",
+]
+
+[dependency-groups]
+local = [
+    "ruff>=0.11.8",
 ]
