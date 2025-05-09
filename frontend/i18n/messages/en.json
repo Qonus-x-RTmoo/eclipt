@@ -1,0 +1,10 @@
+{
+    "Authorization": {
+        "sign-in": {
+            "header": "Sign In"
+        },
+        "register": {
+            "header": "Register"
+        }
+    }
+}
