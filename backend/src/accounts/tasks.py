@@ -11,12 +11,10 @@ def send_confirmation_email(email):
 
     send_mail(
         subject="Ваш код подтверждения",
-        message=f'Ваш код подтверждения: {code} <a href="youtube.com">youtube</a>',
+        message=f"Ваш код подтверждения: {code}",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[email],
         fail_silently=False,
     )
 
     cache.set(email, code, 300)
-    print(code)
-    

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from accounts.serializers import UserRegistrationSerializer
+from accounts.serializers import UserRegistrationSerializer, UserConfirmCodeSerializer
 from rest_framework_simplejwt.views import TokenRefreshView, TokenBlacklistView
 from accounts.utils import set_jwt_token
 from accounts.models import CustomUser
@@ -114,15 +114,14 @@ class UserRegistrationAPIView(APIView):
 
 
 class UserConfirmCode(APIView):
-    def post(self, request):
-        email = request.data.get("email")
-        code = request.data.get("code")
+    serializer_class = UserConfirmCodeSerializer
 
-        if not email or not code:
-            return Response(
-                {"detail": "email и code обязательны"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+        code = serializer.validated_data["code"]
 
         real_code = cache.get(email)
 

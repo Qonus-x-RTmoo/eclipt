@@ -1,4 +1,5 @@
 from rest_framework.serializers import (
+    Serializer,
     ModelSerializer,
     EmailField,
     CharField,
@@ -6,7 +7,6 @@ from rest_framework.serializers import (
 )
 from accounts.models import CustomUser
 from accounts.tasks import send_confirmation_email
-
 
 
 class UserRegistrationSerializer(ModelSerializer):
@@ -17,32 +17,33 @@ class UserRegistrationSerializer(ModelSerializer):
     email = EmailField(required=True)
     username = CharField()
     password = CharField(write_only=True)
-    password2 = CharField(write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ["email", "username", "password", "password2"]
+        fields = ["email", "username", "password"]
 
     def validate(self, data):
-        """
-        Проверяет, существует ли пользователь с таким email, и совпадают ли пароли.
-        """
-
-        if CustomUser.objects.only("id").filter(email=data["email"]).exists():
+        user = CustomUser.objects.filter(email=data["email"]).first()
+        if user and user.is_active:
             raise ValidationError({"email": "Этот email уже используется"})
-
-        if data["password"] != data["password2"]:
-            raise ValidationError({"password": "Пароли не совпадают"})
-
         return data
 
     def create(self, validated_data):
-        """
-        Создаёт нового пользователя после успешной валидации данных.
-        """
+        email = validated_data["email"]
 
-        validated_data.pop("password2")
-        user = CustomUser.objects.create_user(**validated_data)
+        user = CustomUser.objects.filter(email=email).first()
+        if user:
+            # Обновить данные, если пользователь неактивен (например, username или пароль)
+            user.username = validated_data["username"]
+            user.set_password(validated_data["password"])
+            user.save()
+        else:
+            user = CustomUser.objects.create_user(**validated_data)
 
-        send_confirmation_email.delay(user.email)
+        send_confirmation_email.delay(email=email)
         return user
+
+
+class UserConfirmCodeSerializer(Serializer):
+    email = EmailField()
+    code = CharField()
