@@ -1,5 +1,19 @@
-# socialnetwork
+# Eclypt
 
+## Setup Front-end
+- Install the dependencies with:
+```bash
+npm install
+```
+
+- Setup the environmental variables, you can find example .env file [here](https://github.com/)
+
+- Run the development server:
+```bash
+npm run dev
+```
+
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Список приложении для MVP
 1. Аутентификация и авторизация
